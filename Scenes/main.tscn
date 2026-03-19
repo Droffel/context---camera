@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://c4sejyp1i1tjq"]
+
+[ext_resource type="Script" uid="uid://lhya5bxnd2wh" path="res://Scripts/CameraRig.cs" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://c10o3lvlkyc4s" path="res://Prefabs/player.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://dkbemulgyrt7c" path="res://Prefabs/Camp.tscn" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://cvifuk0l84fqm" path="res://Scripts/CameraHint.cs" id="4_jjvhh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7u77a"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jjgbg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bo1nx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8gbba"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gbba"]
+size = Vector3(0.3703308, 0.36029053, 0.3814087)
+
+[node name="Main" type="Node3D" unique_id=2082717381]
+
+[node name="CameraRig" type="Node3D" parent="." unique_id=1636991448 node_paths=PackedStringArray("player", "pitchPivot", "playerPivot", "camera3D")]
+script = ExtResource("1_bo1nx")
+player = NodePath("../Player")
+pitchPivot = NodePath("PitchPivot")
+playerPivot = NodePath("../Player/pivot")
+camera3D = NodePath("PitchPivot/Camera3D")
+
+[node name="PitchPivot" type="Node3D" parent="CameraRig" unique_id=1268939479]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/PitchPivot" unique_id=840293626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
+
+[node name="World" type="Node3D" parent="." unique_id=1850034638]
+
+[node name="Ground" type="StaticBody3D" parent="World" unique_id=1298097708]
+transform = Transform3D(40, 0, 0, 0, 0.2, 0, 0, 0, 80, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground" unique_id=283531496]
+shape = SubResource("BoxShape3D_7u77a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Ground" unique_id=549765515]
+mesh = SubResource("BoxMesh_jjgbg")
+
+[node name="Wall" type="StaticBody3D" parent="World" unique_id=389403301]
+transform = Transform3D(7.2333283, 0, 0, 0, 12.462169, 0, 0, 0, 7.248204, -7.2416344, 6.11368, -0.21118546)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Wall" unique_id=1750333812]
+shape = SubResource("BoxShape3D_bo1nx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Wall" unique_id=453767608]
+mesh = SubResource("BoxMesh_8gbba")
+
+[node name="Wall2" type="StaticBody3D" parent="World" unique_id=1358149003]
+transform = Transform3D(7.2333283, 0, 0, 0, 12.462169, 0, 0, 0, 7.248204, 5.912945, 6.11368, -17.055246)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Wall2" unique_id=1781661832]
+shape = SubResource("BoxShape3D_bo1nx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Wall2" unique_id=1846236374]
+mesh = SubResource("BoxMesh_8gbba")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1946213967]
+transform = Transform3D(1, 0, 0, 0, 0.4745799, 0.8802124, 0, -0.8802124, 0.4745799, 0, 3.2538407, 0.49449778)
+
+[node name="Player" parent="." unique_id=1633576643 node_paths=PackedStringArray("cameraRig") instance=ExtResource("1_jjgbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.059641123, 1.1000004, 0.35730863)
+cameraRig = NodePath("../CameraRig")
+
+[node name="Camp" parent="." unique_id=708293210 instance=ExtResource("3_8gbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.172496, 2.5999985, 18.16647)
+
+[node name="CameraHint" type="Area3D" parent="." unique_id=1887896704 node_paths=PackedStringArray("cameraTarget")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.806356, 0, 18.165411)
+script = ExtResource("4_jjvhh")
+cameraTarget = NodePath("CameraTarget")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraHint" unique_id=863127801]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0.17242432, 3.6834717, 0.036010742)
+shape = SubResource("BoxShape3D_8gbba")
+
+[node name="CameraTarget" type="Node3D" parent="CameraHint" unique_id=226138618]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 9.299681, 0)
+
+[connection signal="body_entered" from="CameraHint" to="CameraHint" method="OnBodyEntered"]
+[connection signal="body_exited" from="CameraHint" to="CameraHint" method="OnBodyExited"]
+
+[editable path="Player"]
