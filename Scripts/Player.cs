@@ -79,6 +79,7 @@ public partial class Player : CharacterBody3D
 	{
 		float dt = (float)delta;
 
+        //input and state
 		modeSwitch();
 		handleInput();
 		handleCrouchInput();
@@ -93,11 +94,13 @@ public partial class Player : CharacterBody3D
 		Vector3 targetVelocity = desiredDir * currentMoveSpeed;
 
 		switch (currMove)
-		{
+		{   
+            //instant movement
 			case MovementShift.Direct:
 				horizontalVelocity = targetVelocity;
 				break;
 
+            //gradual movement
 			case MovementShift.Linear:
 				if (desiredDir != Vector3.Zero)
 				{
@@ -204,6 +207,7 @@ public partial class Player : CharacterBody3D
 
 	private void handleInput()
 	{
+        //collect input from godot
 		float inputXaxis = Input.GetAxis("move_left", "move_right");
 		float inputZaxis = Input.GetAxis("move_forward", "move_back");
         inputZaxis *= -1.0f;
