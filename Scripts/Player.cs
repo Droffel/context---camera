@@ -317,6 +317,7 @@ public partial class Player : CharacterBody3D
 		float targetHeight = isCrouching ? crouchingColliderHeight : standingColliderHeight;
 
 		capsule.Height = Mathf.Lerp(capsule.Height, targetHeight, colliderLerpSpeed * dt) + 0.15f;
+		
 	}
 }
 
